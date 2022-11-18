@@ -1,0 +1,112 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <mat-tab-group>
+                <mat-tab label="RICERCA PER VOCE">
+                    <form class="example-form">
+                        <mat-form-field  class="example-full-width" appearance="fill" style="margin:5% ;">
+                          <mat-label>NOME VOCE</mat-label>
+                          <input matInput placeholder="Es. RISARCIMENTO DANNI" value="" name="nomeVoce" id ="nomeVoce" #nomeVoce (keydown.enter)="getSentenzeByVoce(nomeVoce.value);">
+                          <mat-icon matSuffix (click)="getSentenzeByVoce(nomeVoce.value);" class="pointer" style="cursor:pointer ;">search</mat-icon>
+                          <mat-hint>Inserire il nome della voce che si vuole ricercare</mat-hint>
+                        </mat-form-field>
+                      </form>
+                      <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title ">{{headerText}}</h4>
+                            <p class="card-category">Numero elementi trovati: {{nSentenzePerVoce}} </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <tr style="text-align:center ;">
+                                            <th>NOME VOCE</th>
+                                            <th>SENTENZA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let s of sentenzePerVoce">
+                                            <td>{{s.voce.toUpperCase()}}</td>
+                                            <td>{{s.sentenza}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="RICERCA PER CONTENUTO">
+                    
+                    <form class="example-form" style="margin:5% ;">
+                        <mat-form-field appearance="fill" >
+                            <mat-label>TUTTE LE VOCI</mat-label>
+                            <mat-select #sVoce (selectionChange)="changeVoce($event.value)">
+                              <mat-option *ngFor="let v of elencoVoci" [value]="v" >
+                                {{v}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>PAROLE DA RICERCARE</mat-label>
+                          <input matInput placeholder="Es. INPS" value="" value="" name="subText" id ="subText" #subText (keydown.enter)="getBySubText(subText.value);">
+                          <mat-icon matSuffix  (click)="getBySubText(subText.value);" class="pointer" style="cursor:pointer ;">search</mat-icon>
+                          <mat-hint>Inserire il testo della sentenza che si vuole ricercare</mat-hint>
+                        </mat-form-field>
+                      </form>
+
+                      <div class="card">
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title ">{{headerText}}</h4>
+                            <p class="card-category">Numero elementi trovati: {{nSentenzePerContenuto}} </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                        <tr style="text-align:center ;">
+                                            <th>NOME VOCE</th>
+                                            <th>SENTENZA</th>
+                                        </tr>
+                                    </thead>
+                                    
+
+                                    <tbody>
+                                        <tr [ngStyle]="{'display':'none'}" style="text-align: center; margin:0 , auto;align-items: center; width: 100%;" >
+                                            <td>
+                                                <div  >
+                                                    <mat-spinner ></mat-spinner>
+                            
+                                                    </div>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let s of sentenzePerContenuto">
+                                            <td>{{s.voce.toUpperCase()}}</td>
+                                            <td>{{s.sentenza}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+              </mat-tab-group>
+            
+
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="backdrop" [ngStyle]="{'display':display}" ></div>
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+ <div class="modal-dialog" role="document" >
+   <div class="modal-content" style="text-align: center; margin:0 , auto;align-items: center;">
+    <div style="text-align: center; margin:0 , auto;align-items: center;">
+        <mat-spinner style="text-align: center; margin:0 , auto;align-items: center;"></mat-spinner>
+    </div>
+   </div><!-- /.modal-content -->
+ </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
